@@ -1,0 +1,2014 @@
+@charset "utf-8";
+
+$red: #D51D23;
+$darkgray: #333;
+$textgray: #717678;
+$bg-gray: #080810;
+$container: 90%;
+$break-tb: 1180px;
+$break-sp: 670px;
+
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    min-height: calc(100vh - 56px);
+    background: $bg-gray;
+}
+a {
+    text-decoration: none;
+}
+.pc {
+    display: block;
+}
+.tb {
+    display: none;
+}
+.sp {
+    display: none;
+}
+
+// ヘッダー
+/*========= ナビゲーションドロップダウンのためのCSS ===============*/
+/*==ナビゲーション全体の設定*/
+#header {
+    height: 56px;
+    width: 100%;
+    padding: 0 4vw;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    background-color: $bg-gray;
+    box-shadow: 0px 3px 3px #00000016;
+    z-index: 9999;
+
+    .header-logo {
+        color: #fff;
+        font-family: 'Kanit', sans-serif;
+    }
+    nav{
+        height: 100%;
+        display: flex;
+        background-color: rgba(8, 8, 16, 0.93);
+        color: #fff;
+        text-align: center;
+
+        /*ナビゲーションを横並びに*/
+        ul{
+            width: 55vw;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            list-style: none;
+
+            /*2階層目以降は横並びにしない*/
+            ul{
+                display: block;
+            }
+
+            /*下の階層のulや矢印の基点にするためliにrelativeを指定*/
+            li{
+                height: 100%;
+                position: relative;
+            }
+
+            /*ナビゲーションのリンク設定*/
+            li a{
+                height: 100%;
+                display: flex;
+                align-items: center;
+                text-decoration: none;
+                color: #fff;
+                transition: all .3s;
+                font-family: 'Kanit', sans-serif;
+
+                &::after{
+                    content: '';
+                    /*絶対配置で線の位置を決める*/
+                    position: absolute;
+                    bottom: 20px;
+                    left: 0;
+                    /*線の形状*/
+                    width: 100%;
+                    height: 1px;
+                    background: #fff;
+                    /*アニメーションの指定*/
+                    transition: all .3s;
+                    opacity: 0;
+                }
+                &:hover::after{
+                    opacity: 1;
+                }
+            }
+
+            li li{
+
+                a{
+                width: 100%;
+
+                    &::after{
+                        content: '';
+                        /*絶対配置で線の位置を決める*/
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        /*線の形状*/
+                        width: 100%;
+                        height: 1px;
+                        background: #fff;
+                        /*アニメーションの指定*/
+                        transition: all .3s;
+                        opacity: 0;
+                    }
+                    &:hover::after{
+                        opacity: 1;
+                    }
+                    p{
+                    width: 100%;
+                    padding: 10px 62px 10px 14px;
+                    white-space: nowrap;
+                    text-align: left;
+                    }
+                }
+                /*2階層目のliの矢印の設定*/
+                &::before{
+                    content:'';
+                    position: absolute;
+                    right: 16px;
+                    top: 17px;
+                    width: 9px;
+                    height: 9px;
+                    border-top: 2px solid #fff;
+                    border-right: 2px solid #fff;
+                    transform: rotate(45deg);
+                    /*アニメーションの指定*/
+                    transition: all .3s;
+                }
+                &:hover {
+                    &::before{
+                        right: 8px;
+                    }
+                }
+            }
+        }
+
+        /*== 2・3階層目の共通設定 */
+
+        /*下の階層を持っているulの指定*/
+        li.has-child ul{
+            top: 56px;
+            left: -14px;
+            z-index: 4;
+            /*絶対配置で位置を指定*/
+            position: absolute;
+            /*形状を指定*/
+            width:fit-content;
+            /*はじめは非表示*/
+            visibility: hidden;
+            opacity: 0;
+            /*アニメーション設定*/
+            transition: all .3s;
+            background-color: rgba(8, 8, 16, 0.93);
+        }
+
+        /*hoverしたら表示*/
+        li.has-child:hover > ul,
+        li.has-child ul li:hover > ul,
+        li.has-child:active > ul,
+        li.has-child ul li:active > ul{
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+    .openbtn1{
+        display: none;
+    }
+}
+
+// パンくずリスト
+#pankuzu {
+    width: 90%;
+    max-width: 960px;
+    margin: 28px auto 0;
+    font-family: 'Kanit', sans-serif;
+    text-transform: uppercase;
+
+    &.pankuzuWide {
+        width: 90%;
+        max-width: 1380px;
+        margin: 28px auto 0;
+        font-family: 'Kanit', sans-serif;
+    }
+    a {
+        color: #000;
+    }
+}
+.archive, .category {
+    #pankuzu {
+        max-width: 1380px;
+    }
+}
+
+// フッター
+#footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: $bg-gray;
+    font-size: 1rem;
+    color: #fff;
+
+    .footer {
+        &-btn {
+            top: 0;
+            right: 0;
+            position: absolute;
+            transform: translate( -40%, 40%);
+
+            .btn-return {
+                height: 36px;
+                width: 36px;
+                display : flex;
+                justify-content: center;
+                align-items: center;
+                text-align    : center;      /* 文字位置   */
+                background    : $bg-gray;     /* 背景色     */
+                color         : #fff;     /* 文字色     */
+                border: 2px solid #fff;
+                border-radius: 4px;
+                cursor: pointer;     /* カーソル   */
+                
+                span {
+                    margin-top: 7px;
+                    box-sizing: border-box;
+                    display: inline-block;
+                    position: relative;
+                    width: 10px;
+                    height: 10px;
+                    border-style: solid;
+                    border-width: 2px 2px 0 0;
+                    border-color: #fff;  
+                    transform: rotate(-45deg);
+                    /*アニメーションの指定*/
+                    transition: all .3s;
+                    -webkit-text-size-adjust: 100%;
+                }
+                &:hover {
+                    span {
+                        margin-top: -2px;
+                    }
+                }
+            }
+        }
+        &-container {
+            width: 90%;
+            max-width: 980px;
+            margin: 56px auto 28px;
+            display: flex;
+            justify-content: space-between;
+
+            li {
+                width: 20%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    text-align: center;
+                    font-family: 'Kanit', sans-serif;
+                    color: #fff;
+                    transition: all .3s;
+                }
+                .footer-logo {
+                    font-size: 2rem;
+                    font-weight: bold;
+                }
+                &:not(:nth-child(3)) {
+                    p:hover {
+                        color: #F03C96;
+                    }
+                }
+            }
+        }
+        &-credit {
+            width: 100%;
+            border-top: 1px solid rgba(132,132,136,0.1);
+
+            p {
+                width: 90%;
+                max-width: 1380px;
+                margin: 1rem auto;
+                font-size: 0.75rem;
+                text-align: right;
+                color: #55555a;
+            }
+        }
+    }
+}
+
+.fade {
+    /* 最初は非表示 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(30px);
+    transition: opacity 1s, visibility 1s, transform 1s;
+
+    &In {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+    }
+}
+
+main {
+    margin-top: 56px;
+    background: #fff;
+}
+
+//TOPページ以外のmv
+.other-mv {
+    width: 100%;
+    height: 410px;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background-image: url(../img/top/photography/1.jpg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+
+    &-background-filter {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.15);
+    }
+    .title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #fff;
+        text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+
+        &-eng {
+            font-size: 4rem;
+            line-height: 4rem;
+            font-family: 'Kanit', sans-serif;
+            text-transform: uppercase;
+        }
+        &-jpn {
+            font-size: 2rem;
+        }
+    }
+}
+
+.home {
+    .top-mv {
+        /* 最初は非表示 */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(0);
+        transition: opacity 1s, visibility 1s, transform 1s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #FAFAFA;
+
+        &-fadeIn {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+        &-slider {
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 4vh;
+
+            .slick-arrow {
+                display : flex;
+                justify-content: center;
+                align-items: center;
+                text-align    : center;      /* 文字位置   */
+                background: #3C3CF0;
+                color         : #fff;     /* 文字色     */
+                border: 2px solid #fff;
+                cursor: pointer;     /* カーソル   */
+                opacity: .9;
+                transition: all .3s;
+                
+                span {
+                    box-sizing: border-box;
+                    display: inline-block;
+                    position: relative;
+                    width: 10px;
+                    height: 10px;
+                    border-style: solid;
+                    border-width: 2px 2px 0 0;
+                    border-color: #fff;  
+                    transform: rotate(-45deg);
+                    /*アニメーションの指定*/
+                    transition: all .3s;
+                    -webkit-text-size-adjust: 100%;
+                }
+            }
+            .prev-arrow {
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+
+                span {
+                    margin-left: 8px;
+                    transform: rotate( -135deg);
+                }
+                &:hover {
+                    background-color: $bg-gray;
+
+                    span {
+                        margin-left: -2px;
+                    }
+                }
+            }
+            .next-arrow {
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+                
+                span {
+                    margin-right: 8px;
+                    transform: rotate( 45deg);
+                }
+                &:hover {
+                    background-color: $bg-gray;
+
+                    span {
+                        margin-right: -2px;
+                    }
+                }
+            }
+            li {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                & > div .grid-item {
+                    // filter: grayscale(1);
+                    
+                    &.prev, &.next {
+                        filter: grayscale(0);
+                    }
+                }
+                .grid1 {
+                    width: 84vw;
+                    height: calc(84vh - 56px);
+                    display: grid;
+                    grid-template-columns:repeat(30,1fr);
+                    grid-template-rows:repeat(30,1fr);
+                    gap: 10px 10px;
+                    // pointer-events: none;
+
+                    .grid-title {
+                        grid-area: 3 / 12 / 11 / 25;
+                        padding: 0;
+                        margin: 0;
+                        text-transform: uppercase;
+                        line-height: 0.8;
+                        font-family: 'Kanit', sans-serif;
+                        font-size: 6.4vw;
+                        color: #ef3b3b;
+                        font-weight: bold;
+                        z-index: 1;
+                    }
+                    .grid-country {
+                        grid-area: 1 / 27 / 11 / 29;
+                        padding: 0;
+                        margin: 0;
+                        font-size: 3.5vh;
+                        display: flex;
+                        justify-content: flex-end;
+                        color: #ef3b3b;
+                        text-transform: uppercase;
+                        writing-mode: vertical-lr;
+                        text-align: right;
+                        font-family: 'Kanit', sans-serif;
+                        line-height: 2.4vh;
+                        font-weight: bold;
+                    }
+                    .grid-text {
+                        grid-area: 22 / 25 / 30 / 28;
+                        padding: 0;
+                        margin: 0;
+                        font-size: 1rem;
+                        line-height: 1.2;
+                        display: flex;
+                        color: $textgray;
+                        line-height: 0.8;
+                        font-family: 'Kanit', sans-serif;
+                    }
+                    .grid-item {
+                        padding: 0;
+                        background-repeat: no-repeat;
+                        background-position: 50% 50%;
+                        background-size: cover;
+
+                        &:first-child {
+                            grid-area: 11 / 1 / 17 / 5;
+                            background-image: url(../img/top/mv/japan/1.webp);
+                            background-position: 75% 50%;
+                        }
+                        &:nth-child(2) {
+                            grid-area: 22 / 6 / 28 / 10;
+                            background-image: url(../img/top/mv/japan/2.webp);
+                            background-position: 70% 50%;
+                        }
+                        &:nth-child(3) {
+                            grid-area: 8 / 5 / 22 / 15;
+                            background-image: url(../img/top/mv/japan/3.webp);
+                        }
+                        &:nth-child(4) {
+                            grid-area: 22 / 10 / 29 / 15;
+                            background-image: url(../img/top/mv/japan/4.webp);
+                        }
+                        &:nth-child(5) {
+                            grid-area: 1 / 11 / 8 / 15;
+                            background-image: url(../img/top/mv/japan/5.webp);
+                        }
+                        &:nth-child(6) {
+                            grid-area: 17 / 15 / 24 / 20;
+                            background-image: url(../img/top/mv/japan/6.jpg);
+                            background-position: 75% 50%;
+                        }
+                        &:nth-child(7) {
+                            grid-area: 9 / 15 / 17 / 23;
+                            background-image: url(../img/top/mv/japan/7.webp);
+                            background-position: 60% 50%;
+                        }
+                        &:nth-child(8) {
+                            grid-area: 2 / 18 / 9 / 23;
+                            background-image: url(../img/top/mv/japan/8.webp);
+                        }
+                        &:nth-child(9) {
+                            grid-area: 17 / 20 / 22 / 26;
+                            background-image: url(../img/top/mv/japan/9.webp);
+                        }
+                        &:nth-child(10) {
+                            grid-area: 22 / 20 / 27 / 25;
+                        }
+                        &:nth-child(11) {
+                            grid-area: 4 / 23 / 11 / 27;
+                            background-image: url(../img/top/mv/japan/11.jpg);
+                        }
+                        &:nth-child(12) {
+                            grid-area: 11 / 23 / 17 / 30;
+                            background-image: url(../img/top/mv/japan/12.webp);
+                        }
+                        &:nth-child(13) {
+                            grid-area: 17 / 26 / 22 / 28;
+                            background-image: url(../img/top/mv/japan/13.jpg);
+                            background-position: 92% 50%;
+                        }
+                        &:nth-child(14) {
+                            grid-area: 3 / 6 / 8 / 11;
+                        }
+                        &:nth-child(15) {
+                            grid-area: 24 / 15 / 29 / 20;
+                            background-image: url(../img/top/mv/japan/15.webp);
+                        }
+                    }
+                }
+                .grid2 {
+                    width: 84vw;
+                    height: calc(84vh - 56px);
+                    display: grid;
+                    grid-template-columns:repeat(30,1fr);
+                    grid-template-rows:repeat(30,1fr);
+                    gap: 10px 10px;
+                    // pointer-events: none;
+
+                    .grid-title {
+                        grid-area: 3 / 12 / 11 / 25;
+                        padding: 0;
+                        margin: 0;
+                        text-transform: uppercase;
+                        line-height: 0.8;
+                        font-family: 'Kanit', sans-serif;
+                        font-size: 6.4vw;
+                        color: #ef3b3b;
+                        font-weight: bold;
+                        z-index: 1;
+                    }
+                    .grid-country {
+                        grid-area: 1 / 27 / 11 / 29;
+                        padding: 0;
+                        margin: 0;
+                        font-size: 3.5vh;
+                        display: flex;
+                        justify-content: flex-end;
+                        color: #ef3b3b;
+                        text-transform: uppercase;
+                        writing-mode: vertical-lr;
+                        text-align: right;
+                        font-family: 'Kanit', sans-serif;
+                        line-height: 2.4vh;
+                        font-weight: bold;
+                    }
+                    .grid-text {
+                        grid-area: 22 / 25 / 30 / 28;
+                        padding: 0;
+                        margin: 0;
+                        font-size: 1rem;
+                        line-height: 1.2;
+                        display: flex;
+                        color: $textgray;
+                        line-height: 0.8;
+                        font-family: 'Kanit', sans-serif;
+                    }
+                    .grid-item {
+                        padding: 0;
+                        background-repeat: no-repeat;
+                        background-position: 50% 50%;
+                        background-size: cover;
+                        /* transition: transform 0.2s ease-out; */
+
+                        &:first-child {
+                            grid-area: 11 / 1 / 17 / 5;
+                            background-image: url(../img/top/mv/vietnam/1.webp);
+                        }
+                        &:nth-child(2) {
+                            grid-area: 22 / 6 / 28 / 10;
+                            background-image: url(../img/top/mv/vietnam/2.webp);
+                        }
+                        &:nth-child(3) {
+                            grid-area: 8 / 5 / 22 / 15;
+                            background-image: url(../img/top/mv/vietnam/3.webp);
+                            background-position: 42% 50%;
+                        }
+                        &:nth-child(4) {
+                            grid-area: 22 / 10 / 29 / 15;
+                            background-image: url(../img/top/mv/vietnam/4.jpg);
+                        }
+                        &:nth-child(5) {
+                            grid-area: 1 / 11 / 8 / 15;
+                            background-image: url(../img/top/mv/vietnam/5.webp);
+                        }
+                        &:nth-child(6) {
+                            grid-area: 17 / 15 / 24 / 20;
+                            background-image: url(../img/top/mv/vietnam/6.webp);
+                        }
+                        &:nth-child(7) {
+                            grid-area: 9 / 15 / 17 / 23;
+                            background-image: url(../img/top/mv/vietnam/7.webp);
+                            background-position: 100% 50%;
+                        }
+                        &:nth-child(8) {
+                            grid-area: 2 / 18 / 9 / 23;
+                            background-image: url(../img/top/mv/vietnam/8.webp);
+                            background-position: 26% 50%;
+                        }
+                        &:nth-child(9) {
+                            grid-area: 17 / 20 / 22 / 26;
+                            background-image: url(../img/top/mv/vietnam/9.webp);
+                        }
+                        &:nth-child(10) {
+                            grid-area: 22 / 20 / 27 / 25;
+                        }
+                        &:nth-child(11) {
+                            grid-area: 4 / 23 / 11 / 27;
+                            background-image: url(../img/top/mv/vietnam/11.webp);
+                        }
+                        &:nth-child(12) {
+                            grid-area: 11 / 23 / 17 / 30;
+                            background-image: url(../img/top/mv/vietnam/12.webp);
+                        }
+                        &:nth-child(13) {
+                            grid-area: 17 / 26 / 22 / 28;
+                            background-image: url(../img/top/mv/vietnam/13.jpg);
+                            background-position: 35% 50%;
+                        }
+                        &:nth-child(14) {
+                            grid-area: 3 / 6 / 8 / 11;
+                        }
+                        &:nth-child(15) {
+                            grid-area: 24 / 15 / 29 / 20;
+                            background-image: url(../img/top/mv/vietnam/15.webp);
+                        }
+                    }
+                }
+                .grid3 {
+                    width: 84vw;
+                    height: calc(84vh - 56px);
+                    display: grid;
+                    grid-template-columns:repeat(30,1fr);
+                    grid-template-rows:repeat(30,1fr);
+                    gap: 10px 10px;
+                    // pointer-events: none;
+
+                    .grid-title {
+                        grid-area: 3 / 12 / 11 / 25;
+                        padding: 0;
+                        margin: 0;
+                        text-transform: uppercase;
+                        line-height: 0.8;
+                        font-family: 'Kanit', sans-serif;
+                        font-size: 6.4vw;
+                        color: #ef3b3b;
+                        font-weight: bold;
+                        z-index: 1;
+                    }
+                    .grid-country {
+                        grid-area: 1 / 27 / 11 / 29;
+                        padding: 0;
+                        margin: 0;
+                        font-size: 3.5vh;
+                        display: flex;
+                        justify-content: flex-end;
+                        color: #ef3b3b;
+                        text-transform: uppercase;
+                        writing-mode: vertical-lr;
+                        text-align: right;
+                        font-family: 'Kanit', sans-serif;
+                        line-height: 2.4vh;
+                        font-weight: bold;
+                    }
+                    .grid-text {
+                        grid-area: 22 / 25 / 30 / 28;
+                        padding: 0;
+                        margin: 0;
+                        font-size: 1rem;
+                        line-height: 1.2;
+                        display: flex;
+                        color: $textgray;
+                        line-height: 0.8;
+                        font-family: 'Kanit', sans-serif;
+                    }
+                    .grid-item {
+                        padding: 0;
+                        background-repeat: no-repeat;
+                        background-position: 50% 50%;
+                        background-size: cover;
+                        /* transition: transform 0.2s ease-out; */
+
+                        &:first-child {
+                            grid-area: 11 / 1 / 17 / 5;
+                            background-image: url(../img/top/mv/srilanka/1.jpg);
+                            background-position: 68% 50%;
+                        }
+                        &:nth-child(2) {
+                            grid-area: 22 / 6 / 28 / 10;
+                            background-image: url(../img/top/mv/srilanka/2.jpg);
+                        }
+                        &:nth-child(3) {
+                            grid-area: 8 / 5 / 22 / 15;
+                            background-image: url(../img/top/mv/srilanka/3.webp);
+                        }
+                        &:nth-child(4) {
+                            grid-area: 22 / 10 / 29 / 15;
+                            background-image: url(../img/top/mv/srilanka/4.jpg);
+                        }
+                        &:nth-child(5) {
+                            grid-area: 1 / 11 / 8 / 15;
+                            background-image: url(../img/top/mv/srilanka/5.webp);
+                            background-position: 80% 50%;
+                        }
+                        &:nth-child(6) {
+                            grid-area: 17 / 15 / 24 / 20;
+                            background-image: url(../img/top/mv/srilanka/6.webp);
+                            background-position: 76% 50%;
+                        }
+                        &:nth-child(7) {
+                            grid-area: 9 / 15 / 17 / 23;
+                            background-image: url(../img/top/mv/srilanka/7.webp);
+                        }
+                        &:nth-child(8) {
+                            grid-area: 2 / 18 / 9 / 23;
+                            background-image: url(../img/top/mv/srilanka/8.jpg);
+                            background-position: 44% 50%;
+                        }
+                        &:nth-child(9) {
+                            grid-area: 17 / 20 / 22 / 26;
+                            background-image: url(../img/top/mv/srilanka/9.webp);
+                        }
+                        &:nth-child(10) {
+                            grid-area: 22 / 20 / 27 / 25;
+                        }
+                        &:nth-child(11) {
+                            grid-area: 4 / 23 / 11 / 27;
+                            background-image: url(../img/top/mv/srilanka/11.webp);
+                        }
+                        &:nth-child(12) {
+                            grid-area: 11 / 23 / 17 / 30;
+                            background-image: url(../img/top/mv/srilanka/12.webp);
+                        }
+                        &:nth-child(13) {
+                            grid-area: 17 / 26 / 22 / 28;
+                            background-image: url(../img/top/mv/srilanka/13.webp);
+                            background-position: 52% 50%;
+                        }
+                        &:nth-child(14) {
+                            grid-area: 3 / 6 / 8 / 11;
+                        }
+                        &:nth-child(15) {
+                            grid-area: 24 / 15 / 29 / 20;
+                            background-image: url(../img/top/mv/srilanka/15.webp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //TOPページ　about
+    .top-about {
+        background-color: $bg-gray;
+
+        .container {
+            width: $container;
+            max-width: 1380px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+        }
+        .title {
+            color: #fff;
+
+            &-eng {
+                text-align: center;
+                font-size: 1.875rem;
+                font-family: 'Kanit', sans-serif;
+            }
+            &-jpn {
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+        }
+        .content {
+            margin-top: 24px;
+
+            p {
+                max-width: 960px;
+                margin: 0 auto;
+                font-size: 1.125rem;
+                color: #fff;
+            }
+        }
+    }
+
+    //TOPページ　travel
+    .top-travel {
+        background-color: #fff;
+
+        .container {
+            width: $container;
+            max-width: 1380px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+        }
+        .title {
+            color: $darkgray;
+
+            &-eng {
+                text-align: center;
+                font-size: 1.875rem;
+                font-family: 'Kanit', sans-serif;
+            }
+            &-jpn {
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+        }
+        .content {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+
+            &-title {
+                width: 46%;
+                min-width: 13rem;
+                padding: 1.5rem;
+                position: absolute;
+                left: 50%;
+                bottom: -4.25rem;
+                transform: translateX( -50%);
+                box-shadow: 0 0 10px 1px rgba(188, 188, 188, 0.3);
+                transition: height 0.3s ease-in-out;
+                color: #fff;
+
+                h5 {
+                    font-size: 1.625rem;
+                    text-align: center;
+                    font-family: 'Kanit', sans-serif;
+                }
+                h6 {
+                    font-size: 1.125rem;
+                    text-align: center;
+                }
+            }
+            &-item {
+                width: 100%;
+                margin-bottom: 4.25rem;
+                position: relative;
+
+                &:hover {
+                    .travel-image {
+
+                        &-domestic {
+                            scale: 1.04;
+                        }
+                        &-abroad {
+                            scale: 1.04;
+                        }
+                    }
+                    .content-title {
+                        &-domestic {
+                            filter: brightness(1.1);
+                            box-shadow: 0px 0px 6px 3px #00000050;
+                        }
+                        &-abroad {
+                            filter: brightness(1.1);
+                            box-shadow: 0px 0px 6px 3px #00000050;
+                        }
+                    }
+                }
+            }
+            a {
+                width: 49%;
+            }
+            .travel-image {
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+
+                &-domestic {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 4 / 3;
+                    background-image: url(../img/top/photography/1.jpg);
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    background-size: cover;
+                    transition: all .3s;
+                }
+                &-abroad {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 4 / 3;
+                    background-image: url(../img/abroad/IMG_3820.webp);
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    background-size: cover;
+                    transition: all .3s;
+                }
+            }
+            .content-title{
+                &-domestic {
+                    background: -webkit-gradient(radial, 239.469 23, 0, 239.469 23, 300, from(rgb(68, 230, 163)), to(rgb(68, 200, 230))), rgb(68, 200, 230);
+                    background: #3CF096;
+                    transition: all .3s;
+                }
+                &-abroad {
+                    background: -webkit-gradient(radial, 244.938 23, 0, 244.938 23, 300, from(rgb(227, 208, 132)), to(rgb(175, 115, 42))), rgb(175, 115, 42);
+                    background: #3C96F0;
+                    transition: all .3s;
+                }
+            }
+        }
+    }
+
+    //TOPページ　photography
+    .top-photography {
+        background-color: $bg-gray;
+        color: #fff;
+
+        .container {
+            width: $container;
+            max-width: 960px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+        }
+        .title {
+            color: #fff;
+
+            &-eng {
+                text-align: center;
+                font-size: 1.875rem;
+                font-family: 'Kanit', sans-serif;
+            }
+            &-jpn {
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+        }
+        .content {
+            margin-top: 24px;
+            position: relative;
+        }
+        .allCountryButton{
+            top: -24px;
+            right: 0;
+            position: absolute;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-family: 'Kanit', sans-serif;
+            transform: translate(0%, -100%);
+
+            a {
+                display: flex;
+                align-items: flex-end;
+                color: #44c8e6;
+
+                div {
+                    margin-left: 0.25rem;
+                    font-size: 1.75rem;
+                    line-height: 1.75rem;
+                }
+                &:hover {
+                    filter: brightness(1.2);
+                }
+            }
+        }
+        &-slider {
+            margin: 0 auto;
+            font-size: 1.125rem;
+            color: #fff;
+            position: relative;
+            
+            .slick-arrow {
+                height: 40px;
+                width: 40px;
+                display : flex;
+                justify-content: center;
+                align-items: center;
+                text-align    : center;      /* 文字位置   */
+                background    : $bg-gray;     /* 背景色     */
+                color         : #fff;     /* 文字色     */
+                border: 2px solid #fff;
+                border-radius: 4px;
+                cursor: pointer;     /* カーソル   */
+                opacity: 0.7;
+                transition: all .3s;
+                
+                span {
+                    box-sizing: border-box;
+                    display: inline-block;
+                    position: relative;
+                    width: 10px;
+                    height: 10px;
+                    border-style: solid;
+                    border-width: 2px 2px 0 0;
+                    border-color: #fff;  
+                    transform: rotate(-45deg);
+                    /*アニメーションの指定*/
+                    transition: all .3s;
+                    -webkit-text-size-adjust: 100%;
+                }
+            }
+            .prev-arrow {
+                position: absolute;
+                top: 50%;
+                left: -10%;
+                transform: translate(-50%, -50%);
+
+                span {
+                    margin-left: 8px;
+                    transform: rotate( -135deg);
+                }
+                &:hover {
+                    opacity: 1;
+
+                    span {
+                        margin-left: -2px;
+                    }
+                }
+            }
+            .next-arrow {
+                position: absolute;
+                top: 50%;
+                right: -10%;
+                transform: translate(-50%, -50%);
+                
+                span {
+                    margin-right: 8px;
+                    transform: rotate( 45deg);
+                }
+                &:hover {
+                    opacity: 1;
+
+                    span {
+                        margin-right: -2px;
+                    }
+                }
+            }
+            a {
+                width: 100%;
+                height: 100%;
+            }
+            .item {
+                padding: 0;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+                background-size: cover;
+                aspect-ratio: 3 / 2;
+                position: relative;
+            }
+            .content-title {
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                position: absolute;
+                color: #fff;
+                text-shadow:0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000,0 0 3px #000;
+
+                h5 {
+                    font-size: 3.75rem;
+                    line-height: 3.5rem;
+                }
+                h6 {
+                    font-size: 1.75rem;
+                }
+            }
+            .item1 {
+                background-image: url(../img/domestic/IMG_6419.jpg);
+            }
+            .item2 {
+                background-image: url(../img/top/photography/2.jpg);
+            }
+            .item3 {
+                background-image: url(../img/srilanka/IMG_5410.webp);
+            }
+        }
+        .slick-dots {
+            display: flex;
+            width: 72%;
+            padding: 14px;
+            margin: 64px auto 0;
+            background-color: #fff;
+
+            li {
+                width: 33%;
+                margin-right: 10px;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                    cursor: pointer;
+                    transition: all 0.4s ease-in-out;
+                }
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+        .slick-active {
+            img {
+                filter: brightness(1.6);
+            }
+        }
+    }
+    
+    //TOPページ　contact
+    .top-contact {
+        background-color: #fff;
+
+        .container {
+            width: $container;
+            max-width: 1380px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+        }
+        .title {
+            color: $darkgray;
+
+            &-eng {
+                text-align: center;
+                font-size: 1.875rem;
+                font-family: 'Kanit', sans-serif;
+            }
+            &-jpn {
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+        }
+        .content {
+            margin: 0 auto;
+            margin-top: 24px;
+        }
+        .contact-btn {
+            width: fit-content;
+            margin: 0 auto;
+            background-color: $bg-gray;
+            border-radius: 4px;
+            transition: all 0.3s ease-out;
+
+            &:hover {
+                background-color: #F0963C;
+            }
+            p {
+                padding: 8px 32px;
+                font-size: 1.625rem;
+                letter-spacing: 0.125rem;
+                color: #fff;
+                font-family: 'Dela Gothic One', cursive;
+                text-align: center;
+            }
+        }
+    }
+}
+
+//アーカイブページ　TRAVEL
+.archive {
+    .other-mv {
+        background-image: url(../img/travel/IMG_9077.jpg);
+        background-position: 50% 45%;
+    }
+
+    .travel-contents {
+        background-color: #fff;
+
+        .container {
+            width: $container;
+            max-width: 1380px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+        }
+        .content {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+
+            &-title {
+                width: 46%;
+                min-width: 13rem;
+                padding: 1.5rem;
+                position: absolute;
+                left: 50%;
+                bottom: -4.25rem;
+                transform: translateX( -50%);
+                box-shadow: 0 0 10px 1px rgba(188, 188, 188, 0.3);
+                transition: height 0.3s ease-in-out;
+                color: #fff;
+
+                h5 {
+                    font-size: 1.625rem;
+                    text-align: center;
+                    font-family: 'Kanit', sans-serif;
+                    text-transform: uppercase;
+                }
+                h6 {
+                    font-size: 1.125rem;
+                    text-align: center;
+                }
+            }
+            &-item {
+                width: 100%;
+                margin-bottom: 4.25rem;
+                position: relative;
+
+                &:hover {
+                    .travel-image {
+
+                        &-domestic {
+                            scale: 1.04;
+                        }
+                        &-abroad {
+                            scale: 1.04;
+                        }
+                    }
+                    .content-title {
+                        &-domestic {
+                            filter: brightness(1.1);
+                            box-shadow: 0px 0px 6px 3px #00000050;
+                        }
+                        &-abroad {
+                            filter: brightness(1.1);
+                            box-shadow: 0px 0px 6px 3px #00000050;
+                        }
+                    }
+                }
+            }
+            a {
+                width: 49%;
+            }
+            .travel-image {
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+
+                &-domestic {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 4 / 3;
+                    background-image: url(../img/top/photography/1.jpg);
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    background-size: cover;
+                    transition: all .3s;
+                }
+                &-abroad {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 4 / 3;
+                    background-image: url(../img/abroad/IMG_3820.webp);
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    background-size: cover;
+                    transition: all .3s;
+                }
+            }
+            .content-title{
+                &-domestic {
+                    background: -webkit-gradient(radial, 239.469 23, 0, 239.469 23, 300, from(rgb(68, 230, 163)), to(rgb(68, 200, 230))), rgb(68, 200, 230);
+                    background: #3CF096;
+                    transition: all .3s;
+                }
+                &-abroad {
+                    background: -webkit-gradient(radial, 244.938 23, 0, 244.938 23, 300, from(rgb(227, 208, 132)), to(rgb(175, 115, 42))), rgb(175, 115, 42);
+                    background: #3C96F0;
+                    transition: all .3s;
+                }
+            }
+        }
+    }
+}
+
+//カテゴリーページ
+.category {
+
+    &-domestic {
+        .other-mv {
+            background-image: url(../img/domestic/IMG_6411.jpg);
+            background-position: 50% 32%;
+        }
+    }
+    &-abroad {
+        .other-mv {
+            background-image: url(../img/abroad/IMG_3820.webp);
+            background-position: 50% 56%;
+        }
+    }
+    .category-contents {
+        background-color: #fff;
+
+        .container {
+            width: $container;
+            max-width: 1380px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+        }
+        .content {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+
+            &-title {
+                width: 46%;
+                min-width: 13rem;
+                padding: 1.5rem;
+                position: absolute;
+                left: 50%;
+                bottom: -4.25rem;
+                transform: translateX( -50%);
+                box-shadow: 0 0 10px 1px rgba(188, 188, 188, 0.3);
+                transition: height 0.3s ease-in-out;
+                color: #fff;
+
+                h5 {
+                    font-size: 1.625rem;
+                    text-align: center;
+                    font-family: 'Kanit', sans-serif;
+                    text-transform: uppercase;
+                }
+                h6 {
+                    font-size: 1.125rem;
+                    text-align: center;
+                }
+            }
+            &-item {
+                width: 100%;
+                margin-bottom: 4.25rem;
+                position: relative;
+
+                &:hover {
+                    .travel-image {
+
+                        &-category {
+                            scale: 1.04;
+                        }
+                    }
+                    .content-title {
+                        &-category {
+                            filter: brightness(1);
+                            box-shadow: 0px 0px 6px 3px #00000050;
+                        }
+                    }
+                }
+            }
+            a {
+                width: 49%;
+                margin-bottom: 2vw;
+
+                &:nth-last-child(2),
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+            .travel-image {
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+
+                &-category {
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 4 / 3;
+                    background-image: url(../img/top/photography/1.jpg);
+                    background-repeat: no-repeat;
+                    background-position: 50% 50%;
+                    background-size: cover;
+                    transition: all .3s;
+                }
+            }
+            .content-title{
+                &-category {
+                    background: -webkit-gradient(radial, 239.469 23, 0, 239.469 23, 300, from(rgb(68, 230, 163)), to(rgb(68, 200, 230))), rgb(68, 200, 230);
+                    background: #96F03C;
+                    filter: brightness(.9);
+                    transition: all .3s;
+                }
+            }
+        }
+    }
+}
+
+//記事ページ
+.single {
+
+    main {
+        background-color: #FAFAFA;
+    }
+    .single-contents {
+        .container {
+            width: $container;
+            max-width: 960px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+
+            .content {
+                border-top: 4px solid #3CF096;
+                background-color: #fff;
+                padding: 20px;
+                box-shadow: 0 0 10px 1px rgba(188, 188, 188, 0.3);
+
+                p {
+                    margin-bottom: 1.5rem;
+                }
+                figure{
+                    margin: 0 -20px 1.5rem;
+                }
+                .date {
+                    margin: 1.5rem 0 20px;
+                    text-align: right;
+                    font-family: 'Kanit', sans-serif;
+                }
+                .wp-block-image img {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+//photographyページ
+.photography {
+    .photography-contents {
+        width: 90%;
+        padding: 40px 0 80px;
+        margin: 0 auto;
+        text-align: center;
+
+        h4 {
+            font-size: 2rem;
+            font-family: 'Kanit', sans-serif;
+        }
+        .centerText {
+            margin-bottom: 40px;
+            font-size: 1.125rem;
+        }
+        .homeBtn {
+            width: fit-content;
+            margin: 0 auto;
+            background-color: #080810;
+            border-radius: 4px;
+            -webkit-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+
+            &:hover {
+                background-color: #F0963C;
+            }
+            a {
+                p {
+                    padding: 8px 32px;
+                    font-size: 1.625rem;
+                    letter-spacing: 0.125rem;
+                    color: #fff;
+                    font-family: 'Kanit', sans-serif;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+//contactページ
+.contact {
+    .other-mv {
+        background-image: url(../img/srilanka/IMG_5412.webp);
+        background-position: 50% 76%;
+    }
+}
+#contact {
+    .contact-form {
+        .container {
+            width: $container;
+            max-width: 960px;
+            padding: 40px 0 80px;
+            margin: 0 auto;
+            .topText {
+                font-size: 1.125rem;
+                // margin-bottom: 40px;
+            }
+        }
+        .wpcf7-form {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-size: 1.5rem;
+                font-family: 'Kanit', sans-serif;
+            }
+            .wpcf7-text {
+                width: 100%;
+                padding: 0.5rem;
+                margin-top: 0.5rem;
+                margin-bottom: 24px;
+                font-size: 1.5rem;
+                font-family: 'Noto Sans JP', sans-serif;
+            }
+            .wpcf7-textarea {
+                width: 100%;
+                padding: 0.5rem;
+                margin-top: 0.5rem;
+                margin-bottom: 24px;
+                font-size: 1.5rem;
+                line-height: 1.75rem;
+            }
+        }
+        &-2column {
+            display: flex;
+            justify-content: space-between;
+
+            label {
+                width: 49%;
+                margin-right: 2%;
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+        }
+        .wpcf7-submit {
+            width: 100%;
+            background-color: #080810;
+            border-radius: 4px;
+            font-size: 1.625rem;
+            letter-spacing: 0.125rem;
+            color: #fff;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease-out;
+            padding: 1rem;
+
+            &:hover {
+                background-color: #F0963C;
+            }
+        }
+        .wpcf7-not-valid-tip {
+            color: #dc3232;
+            font-size: 1rem;
+            font-weight: 500;
+            display: block;
+            margin-top: -24px;
+        }
+    }
+}
+
+//404ページ
+#pageNotFound {
+    .pageNotFound-contents {
+        width: 90%;
+        margin: 40px auto 80px;
+        text-align: center;
+
+        h4 {
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+        .centerText {
+            margin-bottom: 40px;
+            font-size: 1.125rem;
+        }
+        .homeBtn {
+            width: fit-content;
+            margin: 0 auto;
+            background-color: #080810;
+            border-radius: 4px;
+            -webkit-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+
+            &:hover {
+                background-color: #F0963C;
+            }
+            a {
+                p {
+                    padding: 8px 32px;
+                    font-size: 1.625rem;
+                    letter-spacing: 0.125rem;
+                    color: #fff;
+                    font-family: 'Kanit', sans-serif;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: $break-tb){
+    body {
+        min-height: calc(100vh - 64px);
+    }
+
+//ヘッダー
+    #header {
+        height: 64px;
+        padding: 0;
+
+        .header-logo {
+            padding-left: 14px;
+        }
+        nav {
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin-top: 64px;
+            padding-top: 32px;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: none;
+        
+            ul {
+                width: 80%;
+                margin: 0 auto;
+                display: block;
+
+                li {
+                    a {
+                        p {
+                            width: 100%;
+                            margin: 6px 0;
+                            margin-left: 0.25rem;
+                            text-align: left;
+                        }
+                    }
+                    li {
+                        a {
+                            div {
+                                width: 12px;
+                                height: 12px;
+                                margin-left: 1.5rem;
+                                border-left: 2px solid #fff;
+                                border-bottom: 2px solid #fff;
+                            }
+                            p {
+                                width: calc(100% - 12px);
+                                padding: 0;
+                                margin: 6px 0;
+                                margin-left: 0.25rem;
+                                text-align: left;
+                                
+                            }
+                        }
+                    }
+                }
+            }
+            li.has-child ul,
+            li.has-child ul ul{
+                position: relative;
+                left: auto;
+                top: auto;
+                width:100%;
+                visibility:visible;
+                opacity:1;
+                background-color: unset;
+            }
+            
+            ul li a{
+                border-bottom:1px solid #fff;
+            }
+
+            /* 1と2階層目　liの矢印の設定*/
+            ul {
+
+                li {
+                    &::before{
+                        content: '';
+                        position: absolute;
+                        right: 6px;
+                        top: 14px;
+                        width: 9px;
+                        height: 9px;
+                        border-top: 2px solid #fff;
+                        border-right: 2px solid #fff;
+                        -webkit-transform: rotate(45deg);
+                        transform: rotate(45deg);
+                    }
+                    li::before{
+                        content: '';
+                        position: absolute;
+                        right: 6px;
+                        top: 14px;
+                        width: 9px;
+                        height: 9px;
+                        border-top: 2px solid #fff;
+                        border-right: 2px solid #fff;
+                        -webkit-transform: rotate(45deg);
+                        transform: rotate(45deg);
+                    }
+                }
+            }
+        }
+
+        /*==================================================
+        　5-2-1 3本線が×に
+        ===================================*/
+        /*ボタン外側※レイアウトによってpositionや形状は適宜変更してください*/
+        .openbtn1{
+            display: block;
+            position: relative;/*ボタン内側の基点となるためrelativeを指定*/
+            background: $bg-gray;
+            cursor: pointer;
+            width: 64px;
+            height: 64px;
+        
+            /*ボタン内側*/
+            span{
+                width: 30px;
+                display: inline-block;
+                transition: all .4s;/*アニメーションの設定*/
+                position: absolute;
+                left: 17.5px;
+                height: 2px;
+                border-radius: 1px;
+                background: #fff;
+            }
+            
+            span:nth-of-type(1) {
+                top: 24px; 
+            }
+            span:nth-of-type(2) {
+                top: 33px;
+            }
+            span:nth-of-type(3) {
+                top: 42px;
+            }
+            
+            /*activeクラスが付与されると線が回転して×に*/
+            
+            &.active span:nth-of-type(1) {
+                top: 18px;
+                left: 11px;
+                transform: translateY(15px) rotate(-45deg);
+                width: 42.4px;
+            }
+            
+            &.active span:nth-of-type(2) {
+                opacity: 0;/*真ん中の線は透過*/
+            }
+            
+            &.active span:nth-of-type(3){
+                top: 30px;
+                left: 11px;
+                transform: translateY(2px) rotate(45deg);
+                width: 42.4px;
+            }
+        }
+    }
+
+//フッター
+    #footer {
+        .footer {
+            &-container {
+                width: 90%;
+            }
+            &-btn {
+                .btn-return {
+                    &:hover {
+                        span {
+                            margin-top: 7px;
+                        }
+                    }
+                }
+            }
+        }
+        .container {
+            width: 90%;
+        }
+    }
+    
+    main {
+        margin-top: 64px;
+    }
+    .other-mv {
+        .title {
+            width: 100%;
+        }
+    }
+
+//TOPページ
+    .home {
+
+        .top-mv {
+            padding-top: 2vh;
+
+            &-slider {
+                width: 100%;
+                margin-top: 2vh;
+
+                .prev-arrow {
+
+                    &:hover {
+                        background: #3C3CF0;
+
+                        span {
+                            margin-left: 8px;
+                        }
+                    }
+                }
+                .next-arrow {
+
+                    &:hover {
+                        background: #3C3CF0;
+
+                        span {
+                            margin-right: 8px;
+                        }
+                    }
+                }
+                li {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .grid1 {
+                        width: 90vw;
+                        height: calc(98vh - 64px);
+                        gap: 6px 6px;
+
+                        .grid-title {
+                            grid-area: 3 / 12 / 11 / 25;
+                            padding: 0;
+                            margin: 0;
+                            text-transform: uppercase;
+                            line-height: 0.8;
+                            font-family: 'Kanit', sans-serif;
+                            font-size: 6.4vw;
+                            color: #ef3b3b;
+                        }
+                        .grid-country {
+                            grid-area: 1 / 27 / 11 / 29;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 3.5vh;
+                            display: flex;
+                            justify-content: flex-end;
+                            color: #ef3b3b;
+                            text-transform: uppercase;
+                            writing-mode: vertical-lr;
+                            text-align: right;
+                            font-family: 'Kanit', sans-serif;
+                            line-height: 2.2vw;
+                        }
+                        .grid-text {
+                            grid-area: 22 / 25 / 30 / 28;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 1rem;
+                            line-height: 1.2;
+                            display: flex;
+                            color: $textgray;
+                            line-height: 0.8;
+                            font-family: 'Kanit', sans-serif;
+                        }
+                    }
+                    .grid2 {
+                        width: 90vw;
+                        height: calc(98vh - 64px);
+                        gap: 6px 6px;
+
+                        .grid-title {
+                            grid-area: 3 / 12 / 11 / 25;
+                            padding: 0;
+                            margin: 0;
+                            text-transform: uppercase;
+                            line-height: 0.8;
+                            font-family: 'Kanit', sans-serif;
+                            font-size: 6.4vw;
+                            color: #ef3b3b;
+                        }
+                        .grid-country {
+                            grid-area: 1 / 27 / 11 / 29;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 3.5vh;
+                            display: flex;
+                            justify-content: flex-end;
+                            color: #ef3b3b;
+                            text-transform: uppercase;
+                            writing-mode: vertical-lr;
+                            text-align: right;
+                            font-family: 'Kanit', sans-serif;
+                            line-height: 2.2vw;
+                        }
+                        .grid-text {
+                            grid-area: 22 / 25 / 30 / 28;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 1rem;
+                            line-height: 1.2;
+                            display: flex;
+                            color: $textgray;
+                            line-height: 0.8;
+                            font-family: 'Kanit', sans-serif;
+                        }
+                    }
+                    .grid3 {
+                        width: 90vw;
+                        height: calc(98vh - 64px);
+                        gap: 6px 6px;
+
+                        .grid-title {
+                            grid-area: 3 / 12 / 11 / 25;
+                            padding: 0;
+                            margin: 0;
+                            text-transform: uppercase;
+                            line-height: 0.8;
+                            font-family: 'Kanit', sans-serif;
+                            font-size: 6.4vw;
+                            color: #ef3b3b;
+                        }
+                        .grid-country {
+                            grid-area: 1 / 27 / 11 / 29;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 3.5vh;
+                            display: flex;
+                            justify-content: flex-end;
+                            color: #ef3b3b;
+                            text-transform: uppercase;
+                            writing-mode: vertical-lr;
+                            text-align: right;
+                            font-family: 'Kanit', sans-serif;
+                            line-height: 2.2vw;
+                        }
+                        .grid-text {
+                            grid-area: 22 / 25 / 30 / 28;
+                            padding: 0;
+                            margin: 0;
+                            font-size: 1rem;
+                            line-height: 1.2;
+                            display: flex;
+                            color: $textgray;
+                            line-height: 0.8;
+                            font-family: 'Kanit', sans-serif;
+                        }
+                    }
+                }
+            }
+        }
+
+        //TOPページ　photography
+        .top-photography {
+            .slick-arrow {
+                display: none;
+            }
+        }
+    }
+}

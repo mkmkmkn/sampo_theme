@@ -1,0 +1,353 @@
+@charset "utf-8";
+
+$red: #D51D23;
+$darkgray: #333;
+$textgray: #717678;
+$bg-gray: #080810;
+$container: 95%;
+$break-tb: 1180px;
+$break-sp: 670px;
+
+@media screen and (max-width: $break-sp){
+    .pc {
+        display: none;
+    }
+
+    .tb {
+        display: none;
+    }
+
+    .sp {
+        display: block;
+    }
+
+    //パンくずリスト
+    #pankuzu {
+        width: 90%;
+        margin: 16px auto 0;
+        font-size: 0.875rem;
+
+        &.pankuzuWide {
+            width: 90%;
+        }
+    }
+
+    #footer {
+        .footer {
+            &-container {
+                margin: 24px 0 20px;
+                flex-direction: column;
+                align-items: center;
+
+                li {
+                    width: auto;
+                    padding-bottom: 6px;
+                    order: 1;
+
+                    &:nth-child(3) {
+                        order: 0;
+                    }
+                    &:last-child {
+                        padding-bottom: 0;
+                    }
+                }
+            }
+            &-logo {
+                img {
+                    height: auto;
+                    width: 100%;
+                    object-fit: cover;
+                }
+            }
+            &-credit {
+                p {
+                    margin: 0.5rem auto;
+                    font-size: 0.875rem;
+                }
+            }
+        }
+    }
+
+    //other-mv
+    .other-mv {
+        height: 340px;
+
+        .title {
+            width: 100%;
+
+            &-eng {
+                font-size: 14vw;
+            }
+            &-jpn {
+                font-size: 7vw;
+            }
+        }
+    }
+
+    .home {
+        .top-mv-slider li {
+
+            .grid1 {
+                .grid-title {
+                    grid-area: 6 / 10 / 30 / 25;
+                    font-size: 10vw;
+                }
+                .grid-text {
+                    display: none;
+                }
+            }
+            .grid2 {
+                .grid-title {
+                    grid-area: 6 / 10 / 30 / 25;
+                    font-size: 10vw;
+                }
+                .grid-text {
+                    display: none;
+                }
+            }
+            .grid3 {
+                .grid-title {
+                    grid-area: 6 / 10 / 30 / 25;
+                    font-size: 10vw;
+                }
+                .grid-text {
+                    display: none;
+                }
+                .grid-item {
+                    &:nth-child(12) {
+                        background-position: 100% 50%;
+                    }
+                }
+            }
+            .grid1, .grid2, .grid3 {
+
+                .grid-item {
+                    &:nth-child(5) {
+                        grid-area: 1 / 8 / 8 / 15;
+                    }
+                    &:nth-child(9) {
+                        grid-area: 17 / 20 / 22 / 28;
+                    }
+                    &:nth-child(13) {
+                        grid-area: 22 / 20 / 28 / 26;
+                    }
+                }
+            }
+        }
+        .top-travel {
+            .content {
+                flex-direction: column;
+
+                a {
+                    width: 100%;
+                    margin-bottom: 40px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+                &-title {
+                    width: 88%;
+                    padding: 0.5rem 0 1rem;
+                    bottom: 0.5rem;
+                    transform: translate(-50%, 100%);
+                }
+                &-item {
+                    margin-bottom: 5.125rem;
+                }
+            }
+        }
+        .top-photography {
+            &-slider {
+                .content-title {
+
+                    h5 {
+                        //Sass コンパイルエラー対策 
+                        font-size: #{"min(10vw, 3rem)"};
+                        line-height: #{"min(10vw, 3rem)"};
+                    }
+                    h6 {
+                        //Sass コンパイルエラー対策 
+                        font-size: #{"min(5vw, 1.5rem)"};
+                        line-height: #{"min(5vw, 1.5rem)"};
+                    }
+                }
+            }
+            &-dots {
+                width: 100vw;
+                margin-left: -5vw;
+            }
+            .slick-dots {
+                width: 100vw;
+                padding: 14px 5vw;
+                margin: 24px 0 0;
+                overflow: scroll;
+
+                li {
+                    width: unset;
+
+                    img {
+                        width: 42vw;
+                    }
+                    &:last-child {
+                        img {
+                            padding-right: 0;
+                        }
+                    }
+                }
+            }
+            .allCountryButton {
+                margin-top: 36px;
+                position: unset;
+                top: unset;
+                right: unset;
+                justify-content: center;
+                align-items: center;
+                transform: translate(0);
+            }
+        }
+        .top-contact {
+            .contact-btn {
+                width: 100%;
+
+                p {
+                    padding: 8px 0;
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+
+    //アーカイブページ　TRAVEL
+    .archive {
+        .travel-contents {
+            .content {
+                flex-direction: column;
+
+                a {
+                    width: 100%;
+                    margin-bottom: 40px;
+
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+                &-title {
+                    width: 88%;
+                    padding: 0.5rem 0 1rem;
+                    bottom: 0.5rem;
+                    transform: translate(-50%, 100%);
+                }
+                &-item {
+                    margin-bottom: 5.125rem;
+                }
+            }
+        }
+    }
+    
+    //カテゴリーページ
+    .category {
+        .category-contents {
+            .content {
+                flex-direction: column;
+
+                a {
+                    width: 100%;
+                    margin-bottom: 40px;
+
+                    &:nth-last-child(2) {
+                        margin-bottom: 40px;
+                    }
+                }
+                &-title {
+                    width: 88%;
+                    padding: 0.5rem 0 1rem;
+                    bottom: 0.5rem;
+                    transform: translate(-50%, 100%);
+                }
+                &-item {
+                    margin-bottom: 5.125rem;
+                }
+            }
+        }
+    }
+
+    //single 
+    .single {
+        .single-contents {
+            .container {
+                width: 100%;
+
+                .content {
+                    padding: 20px 5%;
+
+                    figure {
+                        margin: 0 -5vw 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+    
+    //photography
+    .photography {
+        .other-mv {
+            .title {
+
+                &-eng {
+                    font-size: 12vw;
+                }
+                &-jpn {
+                    font-size: 6vw;
+                }
+            }
+        }
+        .photography-contents {
+            h4 {
+                font-size: 7vw;
+            }
+            .centerText {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    //contact
+    #contact {
+        .contact-form {
+            &-2column {
+                flex-direction: column;
+
+                label {
+                    width: 100%;
+                    margin-right: 0;
+                }
+            }
+            .wpcf7-form {
+                .wpcf7-text {
+                    font-size: 1.25rem;
+
+                    &area {
+                        font-size: 1.25rem;
+                        line-height: 1.5rem;
+                    }
+                }
+            }
+            .wpcf7-submit {
+                padding: 0.75rem;
+            }
+        }
+    }
+
+    //404 
+    #pageNotFound {
+        .pageNotFound-contents {
+            h4 {
+                font-size: 7vw;
+            }
+            .centerText {
+                font-size: 1rem;
+            }
+        }
+    }
+}
